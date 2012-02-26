@@ -107,6 +107,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Engine\Core\Component.cs" />
+    <Compile Include="Engine\Core\Entity.cs" />
+    <Compile Include="Engine\Core\EntityManager.cs" />
+    <Compile Include="Engine\Core\Property.cs" />
+    <Compile Include="Engine\TextureComponent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
