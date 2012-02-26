@@ -28,8 +28,9 @@ namespace SpermGame {
 
         void Init() {
             var box = new Entity {
-                TextureComponent.Instance,
-                { TextureComponent.Texture, this.Content.Load<Texture2D>("box") }
+                Textured.Instance,
+                { Textured.Texture, this.Content.Load<Texture2D>("box") },
+                { Located.Location, new Vector2(30, 30) },
             };
 
             this.entities.Add(box);
@@ -57,8 +58,8 @@ namespace SpermGame {
 
             this.spriteBatch.Begin();
 
-            foreach (var e in this.entities.WithComponent<TextureComponent>()) {
-                e.Component<TextureComponent>().Draw(e, this.spriteBatch);
+            foreach (var e in this.entities.WithComponent<Textured>()) {
+                e.Component<Textured>().Draw(e, this.spriteBatch);
             }
 
             this.spriteBatch.End();

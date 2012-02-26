@@ -111,7 +111,8 @@
     <Compile Include="Engine\Core\Entity.cs" />
     <Compile Include="Engine\Core\EntityManager.cs" />
     <Compile Include="Engine\Core\Property.cs" />
-    <Compile Include="Engine\TextureComponent.cs" />
+    <Compile Include="Engine\Located.cs" />
+    <Compile Include="Engine\Textured.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
