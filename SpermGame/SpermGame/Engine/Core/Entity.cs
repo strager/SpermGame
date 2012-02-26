@@ -4,24 +4,24 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace SpermGame.Engine.Core {
-    class Entity : IEnumerable<Component> {
+    class Entity : IEnumerable<IComponent> {
         public string Name { get; set; }
 
-        private readonly IList<Component> components = new List<Component>();
+        private readonly IList<IComponent> components = new List<IComponent>();
 
-        public IEnumerable<Component> AllComponents {
+        public IEnumerable<IComponent> AllComponents {
             get { return this.components; }
         }
 
-        public T Component<T>() where T : Component {
+        public T Component<T>() where T : IComponent {
             return this.components.OfType<T>().FirstOrDefault();
         }
 
-        public Component Component(Type t) {
+        public IComponent Component(Type t) {
             return this.components.Where(t.IsInstanceOfType).FirstOrDefault();
         }
 
-        public void Add(Component c) {
+        public void Add(IComponent c) {
             if (c == null) {
                 throw new ArgumentNullException("c");
             }
@@ -62,7 +62,7 @@ namespace SpermGame.Engine.Core {
             set { prop.Set(this, value); }
         }
         */
-        public IEnumerator<Component> GetEnumerator() {
+        public IEnumerator<IComponent> GetEnumerator() {
             return this.components.GetEnumerator();
         }
 

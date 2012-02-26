@@ -10,7 +10,7 @@ namespace SpermGame.Engine {
 
         public void Draw(Entity e, SpriteBatch b) {
             // TODO Position
-            b.Draw(e.Get(Texture), e.Get(Located.Location), Color.White);
+            b.Draw(e.Get(Texture), e.Get(Located.Position), Color.White);
         }
     }
 }

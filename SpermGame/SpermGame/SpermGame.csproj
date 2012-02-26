@@ -110,7 +110,12 @@
     <Compile Include="Engine\Core\Component.cs" />
     <Compile Include="Engine\Core\Entity.cs" />
     <Compile Include="Engine\Core\EntityManager.cs" />
+    <Compile Include="Engine\Core\IComponent.cs" />
     <Compile Include="Engine\Core\Property.cs" />
+    <Compile Include="Engine\IUpdated.cs" />
+    <Compile Include="Engine\Order2Update.cs" />
+    <Compile Include="Engine\VelocityInputed.cs" />
+    <Compile Include="Engine\IKeyboardInputed.cs" />
     <Compile Include="Engine\Located.cs" />
     <Compile Include="Engine\Textured.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

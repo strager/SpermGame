@@ -29,8 +29,11 @@ namespace SpermGame {
         void Init() {
             var box = new Entity {
                 Textured.Instance,
+                Order2Update.Instance,
+                VelocityInputed.Instance,
+
                 { Textured.Texture, this.Content.Load<Texture2D>("box") },
-                { Located.Location, new Vector2(30, 30) },
+                { Located.Position, new Vector2(30, 30) },
             };
 
             this.entities.Add(box);
@@ -48,7 +51,14 @@ namespace SpermGame {
                 this.Exit();
             }
 
-            // TODO: Add your update logic here
+            var kb = Keyboard.GetState(PlayerIndex.One);
+            this.entities.ForEach<IKeyboardInputed>((e, c) => {
+                c.Update(e, kb);
+            });
+
+            this.entities.ForEach<IUpdated>((e, c) => {
+                c.Update(e, gameTime);
+            });
 
             base.Update(gameTime);
         }
@@ -58,9 +68,9 @@ namespace SpermGame {
 
             this.spriteBatch.Begin();
 
-            foreach (var e in this.entities.WithComponent<Textured>()) {
-                e.Component<Textured>().Draw(e, this.spriteBatch);
-            }
+            this.entities.ForEach<Textured>((e, c) => {
+                c.Draw(e, this.spriteBatch);
+            });
 
             this.spriteBatch.End();
 
