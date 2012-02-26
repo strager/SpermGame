@@ -1,0 +1,10 @@
+*/bin/
+*/obj/
+/vendor/*/bin/
+/vendor/*/obj/
+*.user
+*.suo
+_*
+*.Cache
+*.opensdf
+*.sdf
