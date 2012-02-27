@@ -29,7 +29,7 @@ namespace SpermGame {
         }
 
         void Init() {
-            this.entities.Add(new Entity("player") {
+            this.entities.QueueSpawn(new Entity("player") {
                 Textured.Instance,
                 Order2Update.Instance,
                 VelocityInputed.Instance,
@@ -50,7 +50,7 @@ namespace SpermGame {
                 },
             });
 
-            this.entities.Add(new Entity("powerup") {
+            this.entities.QueueSpawn(new Entity("powerup") {
                 Textured.Instance,
 
                 { Textured.Texture, this.Content.Load<Texture2D>("powerup") },
@@ -76,6 +76,8 @@ namespace SpermGame {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed) {
                 this.Exit();
             }
+
+            this.entities.Begin();
 
             var kb = Keyboard.GetState(PlayerIndex.One);
             this.entities.ForEach<IKeyboardInputed>((e, c) => {
