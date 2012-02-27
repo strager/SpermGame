@@ -9,7 +9,6 @@ namespace SpermGame.Engine.Component {
         public static readonly Property<Texture2D> Texture = new Property<Texture2D>();
 
         public void Draw(Entity e, SpriteBatch b) {
-            // TODO Position
             b.Draw(e.Get(Texture), e.Get(Located.Position), Color.White);
         }
     }
