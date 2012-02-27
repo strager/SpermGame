@@ -1,9 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using SpermGame.Engine.Core;
 
-namespace SpermGame.Engine {
-    class VelocityInputed : Component, IKeyboardInputed {
+namespace SpermGame.Engine.Component {
+    class VelocityInputed : Core.Component, IKeyboardInputed {
         public static readonly VelocityInputed Instance = new VelocityInputed();
 
         public static readonly Property<float> MovementSpeed = new Property<float>(1);

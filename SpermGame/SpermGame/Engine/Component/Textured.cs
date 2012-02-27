@@ -1,9 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpermGame.Engine.Core;
 
-namespace SpermGame.Engine {
-    class Textured : Component {
+namespace SpermGame.Engine.Component {
+    class Textured : Core.Component {
         public static readonly Textured Instance = new Textured();
 
         public static readonly Property<Texture2D> Texture = new Property<Texture2D>();

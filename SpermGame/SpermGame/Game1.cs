@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using SpermGame.Engine;
+using SpermGame.Engine.Component;
 using SpermGame.Engine.Core;
 
 namespace SpermGame {
