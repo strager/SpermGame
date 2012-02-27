@@ -36,6 +36,7 @@ namespace SpermGame {
 
             var destroysEnemies = new Property<bool>(false);
             var isPowerup = new Property<bool>(false);
+            var damage = new Property<float>(1.0f);
 
             this.entities.QueueSpawn(new Entity("player") {
                 Textured.Instance,
@@ -51,6 +52,7 @@ namespace SpermGame {
                         { Located.Position, e.Get(Located.Position) },
                         { Located.Velocity, new Vector2(7, 0) },
                         { destroysEnemies, true },
+                        { damage, 10.0f },
 
                         {
                             Collidable.Body,
@@ -112,12 +114,18 @@ namespace SpermGame {
                 new CustomCollidable((e, other) => {
                     if (other.Get(destroysEnemies)) {
                         this.entities.QueueDestroy(other);
-                        this.entities.QueueDestroy(e);
+
+                        Healthed.Damage(e, other.Get(damage));
                     }
+                }),
+
+                new CustomKillable((e) => {
+                    this.entities.QueueDestroy(e);
                 }),
 
                 { Textured.Texture, textureEnemy },
                 { Located.Position, new Vector2(500, 100) },
+                { Healthed.Health, 30.0f },
 
                 {
                     Collidable.Body,

@@ -110,9 +110,13 @@
     <Compile Include="Engine\Component\Body.cs" />
     <Compile Include="Engine\Component\Collidable.cs" />
     <Compile Include="Engine\Component\CustomCollidable.cs" />
+    <Compile Include="Engine\Component\CustomComponent.cs" />
     <Compile Include="Engine\Component\CustomKeyboardInputable.cs" />
+    <Compile Include="Engine\Component\CustomKillable.cs" />
     <Compile Include="Engine\Component\CustomUpdated.cs" />
+    <Compile Include="Engine\Component\Healthed.cs" />
     <Compile Include="Engine\Component\IKeyboardInputed.cs" />
+    <Compile Include="Engine\Component\IKillable.cs" />
     <Compile Include="Engine\Component\IUpdated.cs" />
     <Compile Include="Engine\Component\Located.cs" />
     <Compile Include="Engine\Component\Order2Update.cs" />
