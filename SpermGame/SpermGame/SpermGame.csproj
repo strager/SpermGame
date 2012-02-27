@@ -120,6 +120,7 @@
     <Compile Include="Engine\Component\IUpdated.cs" />
     <Compile Include="Engine\Component\Located.cs" />
     <Compile Include="Engine\Component\Order2Update.cs" />
+    <Compile Include="Engine\Component\Texted.cs" />
     <Compile Include="Engine\Component\TimedEmitter.cs" />
     <Compile Include="Engine\Component\Textured.cs" />
     <Compile Include="Engine\Component\VelocityInputed.cs" />

@@ -34,11 +34,15 @@ namespace SpermGame {
             var textureBullet = this.Content.Load<Texture2D>("bullet");
             var textureEnemy = this.Content.Load<Texture2D>("enemy");
 
+            var font = this.Content.Load<SpriteFont>("myfont");
+
             var destroysEnemies = new Property<bool>(false);
             var isPowerup = new Property<bool>(false);
             var damage = new Property<float>(1.0f);
+            var score = new Property<uint>(0);
+            var owner = new Property<Entity>();
 
-            this.entities.QueueSpawn(new Entity("player") {
+            var player = new Entity("player") {
                 Textured.Instance,
                 Order2Update.Instance,
                 VelocityInputed.Instance,
@@ -53,6 +57,7 @@ namespace SpermGame {
                         { Located.Velocity, new Vector2(7, 0) },
                         { destroysEnemies, true },
                         { damage, 10.0f },
+                        { owner, e },
 
                         {
                             Collidable.Body,
@@ -75,6 +80,7 @@ namespace SpermGame {
 
                 { Textured.Texture, textureBox },
                 { Located.Position, new Vector2(30, 30) },
+                { score, 0U },
 
                 {
                     Collidable.Body,
@@ -82,6 +88,21 @@ namespace SpermGame {
                         new CircleShape(Vector2.Zero, 32)
                     })
                 },
+            };
+
+            this.entities.QueueSpawn(player);
+
+            this.entities.QueueSpawn(new Entity("player score display") {
+                Texted.Instance,
+
+                new CustomUpdated((e, gt) => {
+                    // I have a bad feeling about the UI being updated like
+                    // other entities.  =\
+                    e.Set(Texted.Text, player.Get(score).ToString());
+                }),
+
+                { Texted.Font, font },
+                { Texted.Text, "hello world" },
             });
 
             this.entities.QueueSpawn(new Entity("powerup") {
@@ -115,7 +136,12 @@ namespace SpermGame {
                     if (other.Get(destroysEnemies)) {
                         this.entities.QueueDestroy(other);
 
-                        Healthed.Damage(e, other.Get(damage));
+                        float damageDealt = Healthed.Damage(e, other.Get(damage));
+
+                        var ownerE = other.Get(owner);
+                        if (ownerE != null) {
+                            ownerE.Update(score, (s) => s + (uint) damageDealt);
+                        }
                     }
                 }),
 
@@ -172,6 +198,10 @@ namespace SpermGame {
             this.spriteBatch.Begin();
 
             this.entities.ForEach<Textured>((e, c) => {
+                c.Draw(e, this.spriteBatch);
+            });
+
+            this.entities.ForEach<Texted>((e, c) => {
                 c.Draw(e, this.spriteBatch);
             });
 
