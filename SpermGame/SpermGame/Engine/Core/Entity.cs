@@ -47,6 +47,7 @@ namespace SpermGame.Engine.Core {
             set { prop.Set(this, value); }
         }
         */
+
         public IEnumerator<IComponent> GetEnumerator() {
             return this.components.GetEnumerator();
         }
