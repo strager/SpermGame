@@ -34,6 +34,9 @@ namespace SpermGame {
             var textureBullet = this.Content.Load<Texture2D>("bullet");
             var textureEnemy = this.Content.Load<Texture2D>("enemy");
 
+            var destroysEnemies = new Property<bool>(false);
+            var isPowerup = new Property<bool>(false);
+
             this.entities.QueueSpawn(new Entity("player") {
                 Textured.Instance,
                 Order2Update.Instance,
@@ -47,6 +50,14 @@ namespace SpermGame {
                         { Textured.Texture, textureBullet },
                         { Located.Position, e.Get(Located.Position) },
                         { Located.Velocity, new Vector2(7, 0) },
+                        { destroysEnemies, true },
+
+                        {
+                            Collidable.Body,
+                            new Body(new ShapePrimitive[] {
+                                new CircleShape(Vector2.Zero, 8)
+                            })
+                        },
                     });
                 }),
 
@@ -55,8 +66,9 @@ namespace SpermGame {
                 }),
 
                 new CustomCollidable((e, other) => {
-                    // Everything I touch dies!
-                    entities.QueueDestroy(other);
+                    if (other.Get(isPowerup)) {
+                        entities.QueueDestroy(other);
+                    }
                 }),
 
                 { Textured.Texture, textureBox },
@@ -75,6 +87,7 @@ namespace SpermGame {
 
                 { Textured.Texture, texturePowerup },
                 { Located.Position, new Vector2(200, 100) },
+                { isPowerup, true },
 
                 {
                     Collidable.Body,
@@ -93,11 +106,25 @@ namespace SpermGame {
                     e.Update(ms, (t) => t + (uint) gt.ElapsedGameTime.TotalMilliseconds);
 
                     float d = (float) Math.Sin(e.Get(ms) / 1000.0f) * 50;
-                    e.Set(Located.Position, new Vector2(0, d) + new Vector2(500, 300));
+                    e.Set(Located.Position, new Vector2(0, d) + new Vector2(500, 100));
+                }),
+
+                new CustomCollidable((e, other) => {
+                    if (other.Get(destroysEnemies)) {
+                        this.entities.QueueDestroy(other);
+                        this.entities.QueueDestroy(e);
+                    }
                 }),
 
                 { Textured.Texture, textureEnemy },
-                { Located.Position, new Vector2(500, 300) },
+                { Located.Position, new Vector2(500, 100) },
+
+                {
+                    Collidable.Body,
+                    new Body(new ShapePrimitive[] {
+                        new CircleShape(Vector2.Zero, 16)
+                    })
+                },
             });
         }
 
