@@ -110,10 +110,12 @@
     <Compile Include="Engine\Component\Body.cs" />
     <Compile Include="Engine\Component\Collidable.cs" />
     <Compile Include="Engine\Component\CustomCollidable.cs" />
+    <Compile Include="Engine\Component\CustomKeyboardInputable.cs" />
     <Compile Include="Engine\Component\IKeyboardInputed.cs" />
     <Compile Include="Engine\Component\IUpdated.cs" />
     <Compile Include="Engine\Component\Located.cs" />
     <Compile Include="Engine\Component\Order2Update.cs" />
+    <Compile Include="Engine\Component\TimedEmitter.cs" />
     <Compile Include="Engine\Component\Textured.cs" />
     <Compile Include="Engine\Component\VelocityInputed.cs" />
     <Compile Include="Engine\Core\Component.cs" />

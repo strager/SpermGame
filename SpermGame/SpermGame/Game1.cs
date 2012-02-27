@@ -29,17 +29,36 @@ namespace SpermGame {
         }
 
         void Init() {
+            var texturePowerup = this.Content.Load<Texture2D>("powerup");
+            var textureBox = this.Content.Load<Texture2D>("box");
+            var textureBullet = this.Content.Load<Texture2D>("bullet");
+
             this.entities.QueueSpawn(new Entity("player") {
                 Textured.Instance,
                 Order2Update.Instance,
                 VelocityInputed.Instance,
+
+                new TimedEmitter((e) => {
+                    this.entities.QueueSpawn(new Entity("bullet") {
+                        Textured.Instance,
+                        Order2Update.Instance,
+
+                        { Textured.Texture, textureBullet },
+                        { Located.Position, e.Get(Located.Position) },
+                        { Located.Velocity, new Vector2(7, 0) },
+                    });
+                }),
+
+                new CustomKeyboardInputable((e, s) => {
+                    e.Set(TimedEmitter.IsEmitting, s.IsKeyDown(Keys.X));
+                }),
 
                 new CustomCollidable((e, other) => {
                     // Everything I touch dies!
                     entities.QueueDestroy(other);
                 }),
 
-                { Textured.Texture, this.Content.Load<Texture2D>("box") },
+                { Textured.Texture, textureBox },
                 { Located.Position, new Vector2(30, 30) },
 
                 {
@@ -53,7 +72,7 @@ namespace SpermGame {
             this.entities.QueueSpawn(new Entity("powerup") {
                 Textured.Instance,
 
-                { Textured.Texture, this.Content.Load<Texture2D>("powerup") },
+                { Textured.Texture, texturePowerup },
                 { Located.Position, new Vector2(200, 100) },
 
                 {
