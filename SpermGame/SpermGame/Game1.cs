@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Media;
 using SpermGame.Engine;
 using SpermGame.Engine.Component;
 using SpermGame.Engine.Core;
+using SpermGame.Engine.Physics;
 
 namespace SpermGame {
     /// <summary>
@@ -33,8 +34,20 @@ namespace SpermGame {
                 Order2Update.Instance,
                 VelocityInputed.Instance,
 
+                new CustomCollidable((e, other) => {
+                    // Everything I touch dies!
+                    entities.QueueDestroy(other);
+                }),
+
                 { Textured.Texture, this.Content.Load<Texture2D>("box") },
                 { Located.Position, new Vector2(30, 30) },
+
+                {
+                    Collidable.Body,
+                    new Body(new ShapePrimitive[] {
+                        new CircleShape(Vector2.Zero, 32)
+                    })
+                },
             });
 
             this.entities.Add(new Entity("powerup") {
@@ -42,6 +55,13 @@ namespace SpermGame {
 
                 { Textured.Texture, this.Content.Load<Texture2D>("powerup") },
                 { Located.Position, new Vector2(200, 100) },
+
+                {
+                    Collidable.Body,
+                    new Body(new ShapePrimitive[] {
+                        new CircleShape(Vector2.Zero, 12)
+                    })
+                },
             });
         }
 
@@ -65,6 +85,10 @@ namespace SpermGame {
             this.entities.ForEach<IUpdated>((e, c) => {
                 c.Update(e, gameTime);
             });
+
+            PhysicsModule.Update(this.entities);
+
+            this.entities.End();
 
             base.Update(gameTime);
         }

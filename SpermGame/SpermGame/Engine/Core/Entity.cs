@@ -5,6 +5,8 @@ using System.Linq;
 
 namespace SpermGame.Engine.Core {
     class Entity : IEnumerable<IComponent> {
+        private readonly IList<IComponent> components = new List<IComponent>();
+
         private readonly string name;
         public string Name {
             get { return this.name; }
@@ -14,7 +16,9 @@ namespace SpermGame.Engine.Core {
             this.name = name;
         }
 
-        private readonly IList<IComponent> components = new List<IComponent>();
+        public bool HasComponent<T>() {
+            return this.components.OfType<T>().Any();
+        }
 
         public void ForEach<T>(Action<T> callback) where T : IComponent {
             foreach (var c in this.components.OfType<T>()) {
