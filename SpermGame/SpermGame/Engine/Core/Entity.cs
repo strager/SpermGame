@@ -5,7 +5,14 @@ using System.Linq;
 
 namespace SpermGame.Engine.Core {
     class Entity : IEnumerable<IComponent> {
-        public string Name { get; set; }
+        private readonly string name;
+        public string Name {
+            get { return this.name; }
+        }
+
+        public Entity(string name = null) {
+            this.name = name;
+        }
 
         private readonly IList<IComponent> components = new List<IComponent>();
 

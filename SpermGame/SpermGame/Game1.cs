@@ -27,16 +27,21 @@ namespace SpermGame {
         }
 
         void Init() {
-            var box = new Entity {
+            this.entities.Add(new Entity("player") {
                 Textured.Instance,
                 Order2Update.Instance,
                 VelocityInputed.Instance,
 
                 { Textured.Texture, this.Content.Load<Texture2D>("box") },
                 { Located.Position, new Vector2(30, 30) },
-            };
+            });
 
-            this.entities.Add(box);
+            this.entities.Add(new Entity("powerup") {
+                Textured.Instance,
+
+                { Textured.Texture, this.Content.Load<Texture2D>("powerup") },
+                { Located.Position, new Vector2(200, 100) },
+            });
         }
 
         protected override void LoadContent() {
