@@ -7,9 +7,7 @@ namespace SpermGame.Engine {
 
         public void Update(Entity e, GameTime t) {
             var v = e.Get(Located.Velocity);
-            var p = e.Get(Located.Position);
-
-            e.Set(Located.Position, p + v);
+            e.Update(Located.Position, (p) => p + v);
         }
     }
 }

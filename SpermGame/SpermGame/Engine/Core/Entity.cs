@@ -9,34 +9,15 @@ namespace SpermGame.Engine.Core {
 
         private readonly IList<IComponent> components = new List<IComponent>();
 
-        public IEnumerable<IComponent> AllComponents {
-            get { return this.components; }
-        }
-
-        public T Component<T>() where T : IComponent {
-            return this.components.OfType<T>().FirstOrDefault();
-        }
-
-        public IComponent Component(Type t) {
-            return this.components.Where(t.IsInstanceOfType).FirstOrDefault();
+        public void ForEach<T>(Action<T> callback) where T : IComponent {
+            foreach (var c in this.components.OfType<T>()) {
+                callback(c);
+            }
         }
 
         public void Add(IComponent c) {
             if (c == null) {
                 throw new ArgumentNullException("c");
-            }
-
-            if (this.components.Contains(c)) {
-                // FIXME Is this the best type of exception to throw?
-                throw new ArgumentOutOfRangeException("c", "Component already added to entity");
-            }
-
-            if (this.Component(c.GetType()) != null) {
-                // FIXME Is this the best type of exception to throw?
-                throw new ArgumentOutOfRangeException("c", string.Format(
-                    "Component of type {0} already added to entity",
-                    c.GetType()
-                ));
             }
 
             this.components.Add(c);
@@ -53,6 +34,10 @@ namespace SpermGame.Engine.Core {
 
         public void Set<T>(Property<T> prop, T value) {
             prop.Set(this, value);
+        }
+
+        public void Update<T>(Property<T> prop, Func<T, T> update) {
+            this.Set(prop, update(this.Get(prop)));
         }
 
         // C# is a superdouche and doesn't allow generic indexers!
