@@ -111,6 +111,7 @@
     <Compile Include="Engine\Component\Collidable.cs" />
     <Compile Include="Engine\Component\CustomCollidable.cs" />
     <Compile Include="Engine\Component\CustomKeyboardInputable.cs" />
+    <Compile Include="Engine\Component\CustomUpdated.cs" />
     <Compile Include="Engine\Component\IKeyboardInputed.cs" />
     <Compile Include="Engine\Component\IUpdated.cs" />
     <Compile Include="Engine\Component\Located.cs" />

@@ -32,6 +32,7 @@ namespace SpermGame {
             var texturePowerup = this.Content.Load<Texture2D>("powerup");
             var textureBox = this.Content.Load<Texture2D>("box");
             var textureBullet = this.Content.Load<Texture2D>("bullet");
+            var textureEnemy = this.Content.Load<Texture2D>("enemy");
 
             this.entities.QueueSpawn(new Entity("player") {
                 Textured.Instance,
@@ -81,6 +82,22 @@ namespace SpermGame {
                         new CircleShape(Vector2.Zero, 12)
                     })
                 },
+            });
+
+            var ms = new Property<uint>();
+
+            this.entities.QueueSpawn(new Entity("enemy") {
+                Textured.Instance,
+
+                new CustomUpdated((e, gt) => {
+                    e.Update(ms, (t) => t + (uint) gt.ElapsedGameTime.TotalMilliseconds);
+
+                    float d = (float) Math.Sin(e.Get(ms) / 1000.0f) * 50;
+                    e.Set(Located.Position, new Vector2(0, d) + new Vector2(500, 300));
+                }),
+
+                { Textured.Texture, textureEnemy },
+                { Located.Position, new Vector2(500, 300) },
             });
         }
 
