@@ -1,4 +1,5 @@
 ﻿using SpermGame.Engine.Core;
+using SpermGame.Engine.Physics;
 
 namespace SpermGame.Engine.Component {
     abstract class Collidable : Core.Component {

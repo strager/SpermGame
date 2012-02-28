@@ -107,7 +107,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Engine\Component\Body.cs" />
     <Compile Include="Engine\Component\Collidable.cs" />
     <Compile Include="Engine\Component\CustomCollidable.cs" />
     <Compile Include="Engine\Component\CustomComponent.cs" />
@@ -129,6 +128,7 @@
     <Compile Include="Engine\Core\EntityManager.cs" />
     <Compile Include="Engine\Core\IComponent.cs" />
     <Compile Include="Engine\Core\Property.cs" />
+    <Compile Include="Engine\Physics\Body.cs" />
     <Compile Include="Engine\Physics\PhysicsModule.cs" />
     <Compile Include="Engine\Physics\ShapePrimitive.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

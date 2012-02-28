@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
-using SpermGame.Engine.Physics;
 
-namespace SpermGame.Engine.Component {
+namespace SpermGame.Engine.Physics {
     class Body {
         private readonly IList<ShapePrimitive> shapes;
 
