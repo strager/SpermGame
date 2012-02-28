@@ -46,6 +46,13 @@ namespace SpermGame {
                 Textured.Instance,
                 Order2Update.Instance,
 
+                new CustomOnEscape(new BoundingBox(
+                    new Vector3(0, 0, 0),
+                    new Vector3(640, 480, 0)
+                ), (e) => {
+                    this.entities.QueueDestroy(e);
+                }),
+
                 { Textured.Texture, textureBullet },
                 { destroysEnemies, true },
                 { damage, 10.0f },

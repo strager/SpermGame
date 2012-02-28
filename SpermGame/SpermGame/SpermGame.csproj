@@ -112,6 +112,7 @@
     <Compile Include="Engine\Component\CustomComponent.cs" />
     <Compile Include="Engine\Component\CustomKeyboardInputable.cs" />
     <Compile Include="Engine\Component\CustomKillable.cs" />
+    <Compile Include="Engine\Component\CustomOnEscape.cs" />
     <Compile Include="Engine\Component\CustomUpdated.cs" />
     <Compile Include="Engine\Component\Healthed.cs" />
     <Compile Include="Engine\Component\IKeyboardInputed.cs" />

@@ -12,11 +12,17 @@ namespace SpermGame.Engine.Physics {
 
         public BoundingBox Bounds {
             get {
-                // FIXME Not sure if this is correct for non-zero-centered bboxes
-                return this.shapes.Aggregate(
-                    new BoundingBox(),
-                    (acc, x) => BoundingBox.CreateMerged(acc, x.Bounds)
-                );
+                // We have a special first case because
+                // CreateMerged does not work as expected
+                // when merging (0,0,0 => 0,0,0).
+                var bounds = this.shapes.Select((s) => s.Bounds);
+                if (!bounds.Any()) {
+                    return new BoundingBox();
+                }
+
+                var head = bounds.First();
+                var tail = bounds.Skip(1);
+                return tail.Aggregate(head, BoundingBox.CreateMerged);
             }
         }
 
