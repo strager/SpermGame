@@ -22,5 +22,9 @@ namespace SpermGame.Engine.Core {
         internal void Set(Entity entity, T value) {
             this.values[entity] = value;
         }
+
+        public bool Has(Entity entity) {
+            return this.values.ContainsKey(entity);
+        }
     }
 }

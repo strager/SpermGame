@@ -42,30 +42,33 @@ namespace SpermGame {
             var score = new Property<uint>(0);
             var owner = new Property<Entity>();
 
+            var bulletP = new Entity("bullet") {
+                Textured.Instance,
+                Order2Update.Instance,
+
+                { Textured.Texture, textureBullet },
+                { destroysEnemies, true },
+                { damage, 10.0f },
+
+                {
+                    Collidable.Body,
+                    new Body(new ShapePrimitive[] {
+                        new CircleShape(Vector2.Zero, 8)
+                    })
+                },
+            };
+
             var player = new Entity("player") {
                 Textured.Instance,
                 Order2Update.Instance,
                 VelocityInputed.Instance,
 
                 new TimedEmitter((e) => {
-                    this.entities.QueueSpawn(new Entity("bullet") {
-                        Textured.Instance,
-                        Order2Update.Instance,
-
-                        { Textured.Texture, textureBullet },
-                        { Located.Position, e.Get(Located.Position) },
-                        { Located.Velocity, new Vector2(7, 0) },
-                        { destroysEnemies, true },
-                        { damage, 10.0f },
-                        { owner, e },
-
-                        {
-                            Collidable.Body,
-                            new Body(new ShapePrimitive[] {
-                                new CircleShape(Vector2.Zero, 8)
-                            })
-                        },
-                    });
+                    var bullet = bulletP.Create();
+                    bullet.Set(Located.Position, e.Get(Located.Position));
+                    bullet.Set(Located.Velocity, new Vector2(7, 0));
+                    bullet.Set(owner, e);
+                    this.entities.QueueSpawn(bullet);
                 }),
 
                 new CustomKeyboardInputable((e, s) => {

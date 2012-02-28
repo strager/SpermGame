@@ -5,6 +5,8 @@ using System.Linq;
 
 namespace SpermGame.Engine.Core {
     class Entity : IEnumerable<IComponent> {
+        private readonly Entity prototype = null;
+
         private readonly IList<IComponent> components = new List<IComponent>();
 
         private readonly string name;
@@ -16,6 +18,11 @@ namespace SpermGame.Engine.Core {
             this.name = name;
         }
 
+        private Entity(Entity prototype, string name = null) :
+            this(name) {
+            this.prototype = prototype;
+        }
+
         public bool HasComponent<T>() {
             return this.components.OfType<T>().Any();
         }
@@ -23,6 +30,10 @@ namespace SpermGame.Engine.Core {
         public void ForEach<T>(Action<T> callback) where T : IComponent {
             foreach (var c in this.components.OfType<T>()) {
                 callback(c);
+            }
+
+            if (this.prototype != null) {
+                this.prototype.ForEach(callback);
             }
         }
 
@@ -40,6 +51,13 @@ namespace SpermGame.Engine.Core {
         }
 
         public T Get<T>(Property<T> prop) {
+            if (this.prototype != null) {
+                if (!prop.Has(this)) {
+                    // Walk up the prototype chain
+                    return this.prototype.Get(prop);
+                }
+            }
+
             return prop.Get(this);
         }
 
@@ -65,6 +83,10 @@ namespace SpermGame.Engine.Core {
 
         IEnumerator IEnumerable.GetEnumerator() {
             return this.GetEnumerator();
+        }
+
+        public Entity Create(string name = null) {
+            return new Entity(this, name);
         }
     }
 }
