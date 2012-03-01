@@ -127,13 +127,23 @@ namespace SpermGame {
                 new CustomCollidable((e, other) => {
                     if (other.Get(isPowerup)) {
                         entities.QueueDestroy(other);
+
+                        var weaponConfig = e.Get(Weaponized.WeaponConfiguration);
+                        var nextWeaponConfig = weaponConfigs
+                            .SkipWhile((wc) => wc != weaponConfig)
+                            .Skip(1)
+                            .FirstOrDefault();
+
+                        if (nextWeaponConfig != null) {
+                            e.Set(Weaponized.WeaponConfiguration, nextWeaponConfig);
+                        }
                     }
                 }),
 
                 { Textured.Texture, textureBox },
                 { Located.Position, new Vector2(30, 30) },
                 { score, 0U },
-                { Weaponized.WeaponConfiguration, weaponConfigs[1] },
+                { Weaponized.WeaponConfiguration, weaponConfigs[0] },
 
                 {
                     Collidable.Body,
@@ -158,11 +168,10 @@ namespace SpermGame {
                 { Texted.Text, "hello world" },
             });
 
-            this.entities.QueueSpawn(new Entity("powerup") {
+            var powerupP = new Entity("powerup") {
                 Textured.Instance,
 
                 { Textured.Texture, texturePowerup },
-                { Located.Position, new Vector2(200, 100) },
                 { isPowerup, true },
 
                 {
@@ -171,7 +180,15 @@ namespace SpermGame {
                         new CircleShape(Vector2.Zero, 12)
                     })
                 },
-            });
+            };
+
+            this.entities.QueueSpawn(powerupP.Create().Configure((e) => {
+                e.Set(Located.Position, new Vector2(200, 100));
+            }));
+
+            this.entities.QueueSpawn(powerupP.Create().Configure((e) => {
+                e.Set(Located.Position, new Vector2(300, 300));
+            }));
 
             var ms = new Property<uint>();
 
