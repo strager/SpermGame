@@ -88,5 +88,10 @@ namespace SpermGame.Engine.Core {
         public Entity Create(string name = null) {
             return new Entity(this, name);
         }
+
+        public Entity Configure(Action<Entity> callback) {
+            callback(this);
+            return this;
+        }
     }
 }

@@ -65,17 +65,59 @@ namespace SpermGame {
                 },
             };
 
+            var basicWeapon = new Entity {
+                new CustomBulletEmitter((e, weaponOwner) => {
+                    var bullet = bulletP.Create();
+                    bullet.Set(Located.Position, e.Get(Located.Position) + weaponOwner.Get(Located.Position));
+                    bullet.Set(Located.Velocity, e.Get(Located.Velocity));
+                    this.entities.QueueSpawn(bullet);
+                })
+            };
+
+            var weapons = new[] {
+                basicWeapon.Create("top").Configure((e) => {
+                    e.Set(Located.Position, new Vector2(0, 0));
+                    e.Set(Located.Velocity, new Vector2(7, 0));
+                }),
+
+                basicWeapon.Create("bottom").Configure((e) => {
+                    e.Set(Located.Position, new Vector2(0, 30));
+                    e.Set(Located.Velocity, new Vector2(7, 0));
+                }),
+
+                basicWeapon.Create("center").Configure((e) => {
+                    e.Set(Located.Position, new Vector2(0, 15));
+                    e.Set(Located.Velocity, new Vector2(7, 0));
+                }),
+            };
+
+            var weaponConfigs = new[] {
+                new WeaponConfiguration(new[] {
+                    weapons[2],
+                }),
+
+                new WeaponConfiguration(new[] {
+                    weapons[0],
+                    weapons[1],
+                }),
+
+                new WeaponConfiguration(new[] {
+                    weapons[0],
+                    weapons[1],
+                    weapons[2],
+                }),
+            };
+
             var player = new Entity("player") {
                 Textured.Instance,
                 Order2Update.Instance,
                 VelocityInputed.Instance,
+                Weaponized.Instance,
 
                 new TimedEmitter((e) => {
-                    var bullet = bulletP.Create();
-                    bullet.Set(Located.Position, e.Get(Located.Position));
-                    bullet.Set(Located.Velocity, new Vector2(7, 0));
-                    bullet.Set(owner, e);
-                    this.entities.QueueSpawn(bullet);
+                    e.ForEach<Weaponized>((c) => {
+                        c.Emit(e);
+                    });
                 }),
 
                 new CustomKeyboardInputable((e, s) => {
@@ -91,6 +133,7 @@ namespace SpermGame {
                 { Textured.Texture, textureBox },
                 { Located.Position, new Vector2(30, 30) },
                 { score, 0U },
+                { Weaponized.WeaponConfiguration, weaponConfigs[1] },
 
                 {
                     Collidable.Body,

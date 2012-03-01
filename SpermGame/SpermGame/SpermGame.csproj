@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Engine\Component\Collidable.cs" />
+    <Compile Include="Engine\Component\CustomBulletEmitter.cs" />
     <Compile Include="Engine\Component\CustomCollidable.cs" />
     <Compile Include="Engine\Component\CustomComponent.cs" />
     <Compile Include="Engine\Component\CustomKeyboardInputable.cs" />
@@ -115,6 +116,7 @@
     <Compile Include="Engine\Component\CustomOnEscape.cs" />
     <Compile Include="Engine\Component\CustomUpdated.cs" />
     <Compile Include="Engine\Component\Healthed.cs" />
+    <Compile Include="Engine\Component\IBulletEmitter.cs" />
     <Compile Include="Engine\Component\IKeyboardInputed.cs" />
     <Compile Include="Engine\Component\IKillable.cs" />
     <Compile Include="Engine\Component\IUpdated.cs" />
@@ -124,6 +126,7 @@
     <Compile Include="Engine\Component\TimedEmitter.cs" />
     <Compile Include="Engine\Component\Textured.cs" />
     <Compile Include="Engine\Component\VelocityInputed.cs" />
+    <Compile Include="Engine\Component\Weaponized.cs" />
     <Compile Include="Engine\Core\Component.cs" />
     <Compile Include="Engine\Core\Entity.cs" />
     <Compile Include="Engine\Core\EntityManager.cs" />
@@ -132,6 +135,7 @@
     <Compile Include="Engine\Physics\Body.cs" />
     <Compile Include="Engine\Physics\PhysicsModule.cs" />
     <Compile Include="Engine\Physics\ShapePrimitive.cs" />
+    <Compile Include="Engine\WeaponConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
