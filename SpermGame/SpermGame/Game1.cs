@@ -40,6 +40,7 @@ namespace SpermGame {
             var isPowerup = new Property<bool>(false);
             var damage = new Property<float>(1.0f);
             var score = new Property<uint>(0);
+            var points = new Property<uint>(0);
             var owner = new Property<Entity>();
 
             var bulletP = new Entity("bullet") {
@@ -70,6 +71,7 @@ namespace SpermGame {
                     var bullet = bulletP.Create();
                     bullet.Set(Located.Position, e.Get(Located.Position) + weaponOwner.Get(Located.Position));
                     bullet.Set(Located.Velocity, e.Get(Located.Velocity));
+                    bullet.Set(owner, weaponOwner);
                     this.entities.QueueSpawn(bullet);
                 })
             };
@@ -127,6 +129,11 @@ namespace SpermGame {
                             e.Set(Weaponized.WeaponConfiguration, nextWeaponConfig);
                         }
                     }
+                }),
+
+                new CustomKiller((e, killed) => {
+                    uint earnedPoints = killed.Get(points);
+                    e.Update(score, (x) => earnedPoints + x);
                 }),
 
                 { Textured.Texture, textureBox },
@@ -195,22 +202,19 @@ namespace SpermGame {
                     if (other.Get(destroysEnemies)) {
                         this.entities.QueueDestroy(other);
 
-                        float damageDealt = Healthed.Damage(e, other.Get(damage));
-
                         var ownerE = other.Get(owner);
-                        if (ownerE != null) {
-                            ownerE.Update(score, (s) => s + (uint) damageDealt);
-                        }
+                        Healthed.Damage(e, other.Get(damage), ownerE);
                     }
                 }),
 
-                new CustomKillable((e) => {
+                new CustomKillable((e, killer) => {
                     this.entities.QueueDestroy(e);
                 }),
 
                 { Textured.Texture, textureEnemy },
                 { Located.Position, new Vector2(500, 100) },
                 { Healthed.Health, 30.0f },
+                { points, 50U },
 
                 {
                     Collidable.Body,
