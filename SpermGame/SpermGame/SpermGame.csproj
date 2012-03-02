@@ -135,7 +135,6 @@
     <Compile Include="Engine\Physics\Body.cs" />
     <Compile Include="Engine\Physics\PhysicsModule.cs" />
     <Compile Include="Engine\Physics\ShapePrimitive.cs" />
-    <Compile Include="Engine\WeaponConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />

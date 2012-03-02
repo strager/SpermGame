@@ -92,20 +92,9 @@ namespace SpermGame {
             };
 
             var weaponConfigs = new[] {
-                new WeaponConfiguration(new[] {
-                    weapons[2],
-                }),
-
-                new WeaponConfiguration(new[] {
-                    weapons[0],
-                    weapons[1],
-                }),
-
-                new WeaponConfiguration(new[] {
-                    weapons[0],
-                    weapons[1],
-                    weapons[2],
-                }),
+                new[] { weapons[2], },
+                new[] { weapons[0], weapons[1], },
+                new[] { weapons[0], weapons[1], weapons[2], },
             };
 
             var player = new Entity("player") {
