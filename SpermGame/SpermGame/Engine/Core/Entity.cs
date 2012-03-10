@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 
 namespace SpermGame.Engine.Core {
@@ -11,6 +12,7 @@ namespace SpermGame.Engine.Core {
 
         private readonly string name;
         public string Name {
+            [Pure]
             get { return this.name; }
         }
 
@@ -23,6 +25,7 @@ namespace SpermGame.Engine.Core {
             this.prototype = prototype;
         }
 
+        [Pure]
         public bool HasComponent<T>() {
             return this.components.OfType<T>().Any();
         }
@@ -50,6 +53,7 @@ namespace SpermGame.Engine.Core {
             this.Set(prop, value);
         }
 
+        [Pure]
         public T Get<T>(Property<T> prop) {
             if (this.prototype != null) {
                 if (!prop.Has(this)) {

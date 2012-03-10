@@ -1,9 +1,9 @@
 using System;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Reflection;
 
 namespace SpermGame.Scripts {
-    //[Immutable]
     sealed class ScriptDependsAttribute : Attribute {
         private readonly ScriptBase script;
         public ScriptBase Script {
@@ -30,7 +30,7 @@ namespace SpermGame.Scripts {
             this.script = script;
         }
 
-        //[Pure]
+        [Pure]
         private static ScriptBase GetScript(MemberInfo member) {
             var field = member as FieldInfo;
             if (field != null && field.FieldType.IsSubclassOf(typeof(ScriptBase))) {

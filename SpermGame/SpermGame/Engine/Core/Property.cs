@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 
 namespace SpermGame.Engine.Core {
     class Property<T> {
@@ -10,6 +11,7 @@ namespace SpermGame.Engine.Core {
             this.defaultValue = defaultValue;
         }
 
+        [Pure]
         internal T Get(Entity entity) {
             T value;
             if (this.values.TryGetValue(entity, out value)) {
@@ -23,7 +25,8 @@ namespace SpermGame.Engine.Core {
             this.values[entity] = value;
         }
 
-        public bool Has(Entity entity) {
+        [Pure]
+        internal bool Has(Entity entity) {
             return this.values.ContainsKey(entity);
         }
     }

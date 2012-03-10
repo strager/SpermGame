@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 
 namespace SpermGame.Scripts {
     static class ScriptCollection {
+        [Pure]
         public static IEnumerable<ScriptBase> GetAllScripts(IEnumerable<ScriptBase> scripts) {
             // TODO Use yield return
             // TODO Watch for circular dependencies and throw
@@ -33,7 +35,7 @@ namespace SpermGame.Scripts {
             return loaded;
         }
 
-        //[Pure]
+        [Pure]
         public static IEnumerable<ScriptBase> GetDependencies(this ScriptBase script) {
             return script.GetType()
                 .GetCustomAttributes(typeof(ScriptDependsAttribute), false)

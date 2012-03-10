@@ -1,8 +1,10 @@
 using System;
+using System.Diagnostics.Contracts;
 using Microsoft.Xna.Framework;
 
 namespace SpermGame.Engine.Physics {
     abstract class ShapePrimitive {
+        [Pure]
         private static bool CantCollide(ShapePrimitive a, ShapePrimitive b) {
             throw new NotImplementedException(string.Format(
                 "Collision testing between {0} and {1} not implemented",
@@ -10,6 +12,7 @@ namespace SpermGame.Engine.Physics {
             ));
         }
 
+        [Pure]
         public static bool Intersects(ShapePrimitive a, ShapePrimitive b) {
             var aCircle = a as CircleShape;
             if (aCircle != null) { return Intersects(aCircle, b); }
@@ -17,6 +20,7 @@ namespace SpermGame.Engine.Physics {
             return CantCollide(a, b);
         }
 
+        [Pure]
         public static bool Intersects(CircleShape a, ShapePrimitive b) {
             var bCircle = b as CircleShape;
             if (bCircle != null) { return Intersects(a, bCircle); }
