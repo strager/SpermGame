@@ -22,7 +22,7 @@ namespace SpermGame.Engine.Physics {
             // If we collected and handled collisions as they were detected, we
             // would fire at only three collisions.
 
-            FindCollisions(entities.EntitiesWith<Collidable>(), entities, Intersected);
+            FindCollisions(entities.EntitiesWith<ICollidable>(), entities, Intersected);
         }
 
         private static void FindCollisions(
@@ -57,11 +57,11 @@ namespace SpermGame.Engine.Physics {
         }
 
         private static void Intersected(Entity a, Entity b) {
-            a.ForEach<Collidable>((c) => {
+            a.ForEach<ICollidable>((c) => {
                 c.Collided(a, b);
             });
 
-            b.ForEach<Collidable>((c) => {
+            b.ForEach<ICollidable>((c) => {
                 c.Collided(b, a);
             });
         }

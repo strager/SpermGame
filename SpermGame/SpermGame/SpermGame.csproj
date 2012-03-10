@@ -118,6 +118,7 @@
     <Compile Include="Engine\Component\CustomUpdated.cs" />
     <Compile Include="Engine\Component\Healthed.cs" />
     <Compile Include="Engine\Component\IBulletEmitter.cs" />
+    <Compile Include="Engine\Component\ICollidable.cs" />
     <Compile Include="Engine\Component\IDamager.cs" />
     <Compile Include="Engine\Component\IKeyboardInputed.cs" />
     <Compile Include="Engine\Component\IKillable.cs" />

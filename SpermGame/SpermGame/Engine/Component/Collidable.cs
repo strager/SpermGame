@@ -2,7 +2,7 @@
 using SpermGame.Engine.Physics;
 
 namespace SpermGame.Engine.Component {
-    abstract class Collidable : Core.Component {
+    static class Collidable {
         public static readonly Property<Body> Body = new Property<Body>();
 
         public static Body GetEffectiveBody(Entity e) {
@@ -14,7 +14,5 @@ namespace SpermGame.Engine.Component {
             var position = e.Get(Located.Position);
             return body.Offset(position);
         }
-
-        public abstract void Collided(Entity e, Entity other);
     }
 }
