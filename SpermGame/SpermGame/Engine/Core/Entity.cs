@@ -8,6 +8,17 @@ namespace SpermGame.Engine.Core {
     class Entity : IEnumerable<IComponent> {
         private readonly Entity prototype = null;
 
+        [Pure]
+        private IEnumerable<Entity> PrototypeChain() {
+            yield return this;
+
+            if (this.prototype != null) {
+                foreach (var e in this.prototype.PrototypeChain()) {
+                    yield return e;
+                }
+            }
+        }
+
         private readonly IList<IComponent> components = new List<IComponent>();
 
         private readonly string name;
@@ -26,17 +37,34 @@ namespace SpermGame.Engine.Core {
         }
 
         [Pure]
-        public bool HasComponent<T>() {
-            return this.components.OfType<T>().Any();
+        public override string ToString() {
+            var pchain = this.PrototypeChain().ToList();
+            var names = pchain.Select((p) => string.IsNullOrEmpty(p.Name) ? "(unnamed)" : p.Name);
+
+            return "<Entity " + string.Join(" : ", names) + ">";
         }
 
-        public void ForEach<T>(Action<T> callback) where T : IComponent {
+        [Pure]
+        public bool HasComponent<T>() where T : IComponent {
+            return this.Components<T>().Any();
+        }
+
+        [Pure]
+        private IEnumerable<T> Components<T>() where T : IComponent {
             foreach (var c in this.components.OfType<T>()) {
-                callback(c);
+                yield return c;
             }
 
             if (this.prototype != null) {
-                this.prototype.ForEach(callback);
+                foreach (var c in this.prototype.Components<T>()) {
+                    yield return c;
+                }
+            }
+        }
+
+        public void ForEach<T>(Action<T> callback) where T : IComponent {
+            foreach (var c in this.Components<T>()) {
+                callback(c);
             }
         }
 
