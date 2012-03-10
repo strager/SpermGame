@@ -3,20 +3,21 @@ using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using Microsoft.Xna.Framework;
+using SpermGame.Util;
 
 namespace SpermGame.Engine.Physics {
     class Body {
         private readonly ReadOnlyCollection<ShapePrimitive> shapes;
 
         // Bounds cache
-        private BoundingBox? bounds = null;
+        private BoundingBox2? bounds = null;
 
         public IEnumerable<ShapePrimitive> Shapes {
             [Pure]
             get { return this.shapes; }
         }
 
-        public BoundingBox Bounds {
+        public BoundingBox2 Bounds {
             get {
                 if (this.bounds.HasValue) {
                     return this.bounds.Value;
@@ -29,10 +30,10 @@ namespace SpermGame.Engine.Physics {
         }
 
         [Pure]
-        private static BoundingBox CalculateBounds(IEnumerable<ShapePrimitive> shapes) {
+        private static BoundingBox2 CalculateBounds(IEnumerable<ShapePrimitive> shapes) {
             var shapeBounds = shapes.Select((s) => s.Bounds).ToList();
             if (!shapeBounds.Any()) {
-                return new BoundingBox();
+                return new BoundingBox2();
             }
 
             // We have a special first case because
@@ -41,7 +42,7 @@ namespace SpermGame.Engine.Physics {
             // (wtb foldl1)
             var head = shapeBounds.First();
             var tail = shapeBounds.Skip(1);
-            return tail.Aggregate(head, BoundingBox.CreateMerged);
+            return tail.Aggregate(head, BoundingBox2.CreateMerged);
         }
 
         public Body(IEnumerable<ShapePrimitive> shapes) {

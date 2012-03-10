@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SpermGame.Engine.Component;
 using SpermGame.Engine.Core;
 using SpermGame.Engine.Physics;
+using SpermGame.Util;
 
 namespace SpermGame.Scripts {
     class ShipBulletScript : ScriptBase {
@@ -30,9 +31,9 @@ namespace SpermGame.Scripts {
                 Textured.Instance,
                 Order2Update.Instance,
 
-                new CustomOnEscape(new BoundingBox(
-                    new Vector3(0, 0, 0),
-                    new Vector3(640, 480, 0)
+                new CustomOnEscape(new BoundingBox2(
+                    new Vector2(0, 0),
+                    new Vector2(640, 480)
                 ), (e) => {
                     entities.EnqueueDestroy(e);
                 }),

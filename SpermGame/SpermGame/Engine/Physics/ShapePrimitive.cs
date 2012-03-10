@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics.Contracts;
 using Microsoft.Xna.Framework;
+using SpermGame.Util;
 
 namespace SpermGame.Engine.Physics {
     abstract class ShapePrimitive {
@@ -38,14 +39,11 @@ namespace SpermGame.Engine.Physics {
         public virtual Vector2 Center {
             [Pure]
             get {
-                var bounds = this.Bounds;
-                var min2 = new Vector2(bounds.Min.X, bounds.Min.Y);
-                var max2 = new Vector2(bounds.Max.X, bounds.Max.Y);
-                return min2 + (max2 - min2) / 2;
+                return this.Bounds.Center;
             }
         }
 
-        public abstract BoundingBox Bounds { [Pure] get; }
+        public abstract BoundingBox2 Bounds { [Pure] get; }
 
         [Pure]
         public abstract ShapePrimitive Offset(Vector2 v);
@@ -67,16 +65,16 @@ namespace SpermGame.Engine.Physics {
             this.radius = radius;
         }
 
-        public override BoundingBox Bounds {
+        public override BoundingBox2 Bounds {
             get {
                 float minX = this.center.X - this.radius;
                 float minY = this.center.Y - this.radius;
                 float maxX = this.center.X + this.radius;
                 float maxY = this.center.Y + this.radius;
 
-                return new BoundingBox(
-                    new Vector3(minX, minY, 0),
-                    new Vector3(maxX, maxY, 0)
+                return new BoundingBox2(
+                    new Vector2(minX, minY),
+                    new Vector2(maxX, maxY)
                 );
             }
         }

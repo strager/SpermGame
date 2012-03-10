@@ -1,14 +1,15 @@
 using System;
 using Microsoft.Xna.Framework;
 using SpermGame.Engine.Core;
+using SpermGame.Util;
 
 namespace SpermGame.Engine.Component {
     class CustomOnEscape : CustomComponent<Action<Entity>>, IUpdated {
         private static readonly Property<bool> IsEscaped = new Property<bool>(false);
 
-        private readonly BoundingBox bbox;
+        private readonly BoundingBox2 bbox;
 
-        public CustomOnEscape(BoundingBox bbox, Action<Entity> action) :
+        public CustomOnEscape(BoundingBox2 bbox, Action<Entity> action) :
             base(action) {
             this.bbox = bbox;
         }

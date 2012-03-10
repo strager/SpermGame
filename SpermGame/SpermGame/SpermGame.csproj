@@ -150,6 +150,7 @@
     <Compile Include="Scripts\PowerupsScript.cs" />
     <Compile Include="Scripts\Properties.cs" />
     <Compile Include="Scripts\ScriptBase.cs" />
+    <Compile Include="Util\BoundingBox2.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
