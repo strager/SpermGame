@@ -8,6 +8,7 @@ using SpermGame.Engine.Core;
 using SpermGame.Engine.Physics;
 
 namespace SpermGame.Scripts {
+    [ScriptDepends(typeof(ShipBulletScript))]
     class ShipScript : ScriptBase {
         public static readonly ShipScript Instance = new ShipScript();
 
@@ -26,7 +27,6 @@ namespace SpermGame.Scripts {
 
         protected override void ExecuteImpl(EntityCollection entities) {
             var shipBulletScript = ShipBulletScript.Instance;
-            shipBulletScript.Execute(entities);
 
             var ship = new Entity("ship") {
                 Textured.Instance,
@@ -92,7 +92,6 @@ namespace SpermGame.Scripts {
                 { Texted.Font, font },
                 { Texted.Text, "hello world" },
             });
-
         }
     }
 }

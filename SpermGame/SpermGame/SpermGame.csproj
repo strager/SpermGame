@@ -143,6 +143,8 @@
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Scripts\EnemiesScript.cs" />
+    <Compile Include="Scripts\ScriptCollection.cs" />
+    <Compile Include="Scripts\ScriptDependsAttribute.cs" />
     <Compile Include="Scripts\ShipBulletScript.cs" />
     <Compile Include="Scripts\ShipScript.cs" />
     <Compile Include="Scripts\PowerupsScript.cs" />

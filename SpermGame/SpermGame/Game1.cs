@@ -30,21 +30,17 @@ namespace SpermGame {
         }
 
         void Init() {
-            var executeScripts = new ScriptBase[] {
+            var scripts = ScriptCollection.GetAllScripts(new ScriptBase[] {
                 ShipScript.Instance,
                 PowerupsScript.Instance,
                 EnemiesScript.Instance,
-            };
-
-            var loadScripts = executeScripts.Concat(new ScriptBase[] {
-                ShipBulletScript.Instance,
             }).ToArray();
 
-            foreach (var script in loadScripts) {
+            foreach (var script in scripts) {
                 script.LoadContent(this.Content);
             }
 
-            foreach (var script in executeScripts) {
+            foreach (var script in scripts) {
                 script.Execute(entities);
             }
         }
