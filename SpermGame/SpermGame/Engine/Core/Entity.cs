@@ -77,6 +77,12 @@ namespace SpermGame.Engine.Core {
             c.Initialize(this);
         }
 
+        public void Add(IEnumerable<IComponent> cs) {
+            foreach (var c in cs) {
+                this.Add(c);
+            }
+        }
+
         public void Add<T>(Property<T> prop, T value) {
             this.Set(prop, value);
         }
@@ -123,6 +129,16 @@ namespace SpermGame.Engine.Core {
 
         public Entity Configure(Action<Entity> callback) {
             callback(this);
+            return this;
+        }
+
+        public Entity Configure<T>(Property<T> prop, T value) {
+            this.Set(prop, value);
+            return this;
+        }
+
+        public Entity Configure(IEnumerable<IComponent> components) {
+            this.Add(components);
             return this;
         }
     }

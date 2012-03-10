@@ -31,7 +31,7 @@ namespace SpermGame {
 
         void Init() {
             var scripts = ScriptCollection.GetAllScripts(new ScriptBase[] {
-                ShipScript.Instance,
+                PlayerScript.Instance,
                 PowerupsScript.Instance,
                 EnemiesScript.Instance,
             }).ToArray();

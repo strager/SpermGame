@@ -13,7 +13,11 @@ namespace SpermGame.Scripts {
         public static readonly ShipScript Instance = new ShipScript();
 
         private Texture2D shipTexture;
-        private SpriteFont font;
+
+        public Entity Ship {
+            get;
+            private set;
+        }
 
         private ShipScript() {
         }
@@ -22,13 +26,12 @@ namespace SpermGame.Scripts {
             base.LoadContentImpl(content);
 
             this.shipTexture = content.Load<Texture2D>("box");
-            this.font = content.Load<SpriteFont>("myfont");
         }
 
         protected override void ExecuteImpl(EntityCollection entities) {
             var shipBulletScript = ShipBulletScript.Instance;
 
-            var ship = new Entity("ship") {
+            this.Ship = new Entity("ship proto") {
                 Textured.Instance,
                 Order2Update.Instance,
                 VelocityInputed.Instance,
@@ -38,10 +41,6 @@ namespace SpermGame.Scripts {
                     e.ForEach<Weaponized>((c) => {
                         c.Emit(e);
                     });
-                }),
-
-                new CustomKeyboardInputable((e, s) => {
-                    e.Set(TimedEmitter.IsEmitting, s.IsKeyDown(Keys.X));
                 }),
 
                 new CustomCollidable((e, other) => {
@@ -60,11 +59,6 @@ namespace SpermGame.Scripts {
                     }
                 }),
 
-                new CustomKiller((e, killed) => {
-                    uint earnedPoints = killed.Get(Properties.Points);
-                    e.Update(Properties.Score, (x) => earnedPoints + x);
-                }),
-
                 { Textured.Texture, this.shipTexture },
                 { Located.Position, new Vector2(30, 30) },
                 { Properties.Score, 0U },
@@ -77,21 +71,6 @@ namespace SpermGame.Scripts {
                     })
                 },
             };
-
-            entities.EnqueueSpawn(ship);
-
-            entities.EnqueueSpawn(new Entity("ship score display") {
-                Texted.Instance,
-
-                new CustomUpdated((e, gt) => {
-                    // I have a bad feeling about the UI being updated like
-                    // other entities.  =\
-                    e.Set(Texted.Text, ship.Get(Properties.Score).ToString());
-                }),
-
-                { Texted.Font, font },
-                { Texted.Text, "hello world" },
-            });
         }
     }
 }

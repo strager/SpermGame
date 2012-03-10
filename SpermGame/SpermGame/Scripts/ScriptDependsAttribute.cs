@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 
 namespace SpermGame.Scripts {
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
     sealed class ScriptDependsAttribute : Attribute {
         private readonly ScriptBase script;
         public ScriptBase Script {
