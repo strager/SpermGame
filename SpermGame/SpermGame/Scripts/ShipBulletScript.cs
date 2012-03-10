@@ -6,12 +6,17 @@ using SpermGame.Engine.Core;
 using SpermGame.Engine.Physics;
 
 namespace SpermGame.Scripts {
-    class PlayerBulletScript : ScriptBase {
+    class ShipBulletScript : ScriptBase {
+        public static readonly ShipBulletScript Instance = new ShipBulletScript();
+
         private Texture2D bulletTexture;
 
         private Entity[][] weaponConfigs;
         public Entity[][] WeaponConfigs {
             get { return this.weaponConfigs; }
+        }
+
+        private ShipBulletScript() {
         }
 
         protected override void LoadContentImpl(ContentManager content) {
@@ -20,7 +25,7 @@ namespace SpermGame.Scripts {
             this.bulletTexture = content.Load<Texture2D>("bullet");
         }
 
-        public override void Execute(EntityCollection entities) {
+        protected override void ExecuteImpl(EntityCollection entities) {
             var bulletP = new Entity("bullet") {
                 Textured.Instance,
                 Order2Update.Instance,

@@ -34,7 +34,15 @@ namespace SpermGame.Scripts {
             // Override me
         }
 
-        public abstract void Execute(EntityCollection entities);
+        public void Execute(EntityCollection entities) {
+            if (!this.contentLoaded) {
+                throw new InvalidOperationException("Content not loaded");
+            }
+
+            this.ExecuteImpl(entities);
+        }
+
+        protected abstract void ExecuteImpl(EntityCollection entities);
 
         public virtual void Dispose() {
             // Screw the disposable pattern

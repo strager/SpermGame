@@ -8,31 +8,27 @@ using SpermGame.Engine.Core;
 using SpermGame.Engine.Physics;
 
 namespace SpermGame.Scripts {
-    class PlayerScript : ScriptBase {
-        private Texture2D playerTexture;
+    class ShipScript : ScriptBase {
+        public static readonly ShipScript Instance = new ShipScript();
+
+        private Texture2D shipTexture;
         private SpriteFont font;
 
-        private readonly PlayerBulletScript playerBulletScript = new PlayerBulletScript();
+        private ShipScript() {
+        }
 
         protected override void LoadContentImpl(ContentManager content) {
             base.LoadContentImpl(content);
 
-            this.playerTexture = content.Load<Texture2D>("box");
+            this.shipTexture = content.Load<Texture2D>("box");
             this.font = content.Load<SpriteFont>("myfont");
-
-            this.playerBulletScript.LoadContent(content);
         }
 
-        protected override void UnloadContentImpl() {
-            base.UnloadContentImpl();
+        protected override void ExecuteImpl(EntityCollection entities) {
+            var shipBulletScript = ShipBulletScript.Instance;
+            shipBulletScript.Execute(entities);
 
-            this.playerBulletScript.UnloadContent();
-        }
-
-        public override void Execute(EntityCollection entities) {
-            this.playerBulletScript.Execute(entities);
-
-            var player = new Entity("player") {
+            var ship = new Entity("ship") {
                 Textured.Instance,
                 Order2Update.Instance,
                 VelocityInputed.Instance,
@@ -53,7 +49,7 @@ namespace SpermGame.Scripts {
                         entities.EnqueueDestroy(other);
 
                         var weaponConfig = e.Get(Weaponized.WeaponConfiguration);
-                        var nextWeaponConfig = this.playerBulletScript.WeaponConfigs
+                        var nextWeaponConfig = shipBulletScript.WeaponConfigs
                             .SkipWhile((wc) => wc != weaponConfig)
                             .Skip(1)
                             .FirstOrDefault();
@@ -69,10 +65,10 @@ namespace SpermGame.Scripts {
                     e.Update(Properties.Score, (x) => earnedPoints + x);
                 }),
 
-                { Textured.Texture, this.playerTexture },
+                { Textured.Texture, this.shipTexture },
                 { Located.Position, new Vector2(30, 30) },
                 { Properties.Score, 0U },
-                { Weaponized.WeaponConfiguration, this.playerBulletScript.WeaponConfigs[0] },
+                { Weaponized.WeaponConfiguration, shipBulletScript.WeaponConfigs[0] },
 
                 {
                     Collidable.Body,
@@ -82,15 +78,15 @@ namespace SpermGame.Scripts {
                 },
             };
 
-            entities.EnqueueSpawn(player);
+            entities.EnqueueSpawn(ship);
 
-            entities.EnqueueSpawn(new Entity("player score display") {
+            entities.EnqueueSpawn(new Entity("ship score display") {
                 Texted.Instance,
 
                 new CustomUpdated((e, gt) => {
                     // I have a bad feeling about the UI being updated like
                     // other entities.  =\
-                    e.Set(Texted.Text, player.Get(Properties.Score).ToString());
+                    e.Set(Texted.Text, ship.Get(Properties.Score).ToString());
                 }),
 
                 { Texted.Font, font },

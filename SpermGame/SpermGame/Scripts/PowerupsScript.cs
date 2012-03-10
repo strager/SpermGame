@@ -7,7 +7,12 @@ using SpermGame.Engine.Physics;
 
 namespace SpermGame.Scripts {
     class PowerupsScript : ScriptBase {
+        public static readonly PowerupsScript Instance = new PowerupsScript();
+
         private Texture2D powerupTexture;
+
+        private PowerupsScript() {
+        }
 
         protected override void LoadContentImpl(ContentManager content) {
             base.LoadContentImpl(content);
@@ -15,7 +20,7 @@ namespace SpermGame.Scripts {
             this.powerupTexture = content.Load<Texture2D>("powerup");
         }
 
-        public override void Execute(EntityCollection entities) {
+        protected override void ExecuteImpl(EntityCollection entities) {
             var powerupP = new Entity("powerup") {
                 Textured.Instance,
 

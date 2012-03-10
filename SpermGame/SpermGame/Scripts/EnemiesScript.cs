@@ -8,7 +8,12 @@ using SpermGame.Engine.Physics;
 
 namespace SpermGame.Scripts {
     class EnemiesScript : ScriptBase {
+        public static readonly EnemiesScript Instance = new EnemiesScript();
+
         private Texture2D enemyTexture;
+
+        private EnemiesScript() {
+        }
 
         protected override void LoadContentImpl(ContentManager content) {
             base.LoadContentImpl(content);
@@ -16,7 +21,7 @@ namespace SpermGame.Scripts {
             this.enemyTexture = content.Load<Texture2D>("enemy");
         }
 
-        public override void Execute(EntityCollection entities) {
+        protected override void ExecuteImpl(EntityCollection entities) {
             entities.EnqueueSpawn(new Entity("enemy") {
                 Textured.Instance,
 
