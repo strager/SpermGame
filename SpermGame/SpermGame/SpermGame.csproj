@@ -141,6 +141,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="Scripts\EnemiesScript.cs" />
+    <Compile Include="Scripts\PlayerBulletScript.cs" />
+    <Compile Include="Scripts\PlayerScript.cs" />
+    <Compile Include="Scripts\PowerupsScript.cs" />
+    <Compile Include="Scripts\Properties.cs" />
+    <Compile Include="Scripts\ScriptBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
