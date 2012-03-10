@@ -4,18 +4,26 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace SpermGame.Engine.Core {
-    class EntityManager : IEnumerable<Entity> {
+    class EntityCollection : IEnumerable<Entity> {
         private readonly IList<Entity> entities = new List<Entity>();
 
         private readonly IList<Entity> spawnQueue = new List<Entity>();
         private readonly IList<Entity> destroyQueue = new List<Entity>();
  
+        /// <summary>
+        /// Enqueues entity for spawning when SpawnEntities is called.
+        /// </summary>
+        /// <param name="e"></param>
         public void Add(Entity e) {
-            this.QueueSpawn(e);
+            this.EnqueueSpawn(e);
         }
 
-        public void QueueSpawn(Entity e) {
+        public void EnqueueSpawn(Entity e) {
             this.spawnQueue.Add(e);
+        }
+
+        public void EnqueueDestroy(Entity e) {
+            this.destroyQueue.Add(e);
         }
 
         public void ForEach<T>(Action<Entity, T> callback) where T : IComponent {
@@ -36,11 +44,7 @@ namespace SpermGame.Engine.Core {
             return this.GetEnumerator();
         }
 
-        public void QueueDestroy(Entity e) {
-            this.destroyQueue.Add(e);
-        }
-
-        public void Begin() {
+        public void SpawnEntities() {
             foreach (var e in this.spawnQueue) {
                 this.entities.Add(e);
             }
@@ -48,7 +52,7 @@ namespace SpermGame.Engine.Core {
             this.spawnQueue.Clear();
         }
 
-        public void End() {
+        public void DestroyEntities() {
             foreach (var e in this.destroyQueue) {
                 this.entities.Remove(e);
             }

@@ -6,7 +6,7 @@ using SpermGame.Engine.Core;
 
 namespace SpermGame.Engine.Physics {
     static class PhysicsModule {
-        public static void Update(EntityManager entities) {
+        public static void Update(EntityCollection entities) {
             // The state of collisions (positions, etc.) may change between
             // iterations of FindCollisions.  To make this clear, we've opted
             // for a callback function instead of an IEnumerable return value

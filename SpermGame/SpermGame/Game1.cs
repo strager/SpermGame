@@ -21,7 +21,7 @@ namespace SpermGame {
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
 
-        private readonly EntityManager entities = new EntityManager();
+        private static readonly EntityCollection Entities = new EntityCollection();
 
         public Game1() {
             this.graphics = new GraphicsDeviceManager(this);
@@ -51,7 +51,7 @@ namespace SpermGame {
                     new Vector3(0, 0, 0),
                     new Vector3(640, 480, 0)
                 ), (e) => {
-                    this.entities.QueueDestroy(e);
+                    Entities.EnqueueDestroy(e);
                 }),
 
                 { Textured.Texture, textureBullet },
@@ -72,7 +72,7 @@ namespace SpermGame {
                     bullet.Set(Located.Position, e.Get(Located.Position) + weaponOwner.Get(Located.Position));
                     bullet.Set(Located.Velocity, e.Get(Located.Velocity));
                     bullet.Set(owner, weaponOwner);
-                    this.entities.QueueSpawn(bullet);
+                    Entities.EnqueueSpawn(bullet);
                 })
             };
 
@@ -117,7 +117,7 @@ namespace SpermGame {
 
                 new CustomCollidable((e, other) => {
                     if (other.Get(isPowerup)) {
-                        entities.QueueDestroy(other);
+                        Entities.EnqueueDestroy(other);
 
                         var weaponConfig = e.Get(Weaponized.WeaponConfiguration);
                         var nextWeaponConfig = weaponConfigs
@@ -149,9 +149,9 @@ namespace SpermGame {
                 },
             };
 
-            this.entities.QueueSpawn(player);
+            Entities.EnqueueSpawn(player);
 
-            this.entities.QueueSpawn(new Entity("player score display") {
+            Entities.EnqueueSpawn(new Entity("player score display") {
                 Texted.Instance,
 
                 new CustomUpdated((e, gt) => {
@@ -178,17 +178,17 @@ namespace SpermGame {
                 },
             };
 
-            this.entities.QueueSpawn(powerupP.Create().Configure((e) => {
+            Entities.EnqueueSpawn(powerupP.Create().Configure((e) => {
                 e.Set(Located.Position, new Vector2(200, 100));
             }));
 
-            this.entities.QueueSpawn(powerupP.Create().Configure((e) => {
+            Entities.EnqueueSpawn(powerupP.Create().Configure((e) => {
                 e.Set(Located.Position, new Vector2(300, 300));
             }));
 
             var ms = new Property<uint>();
 
-            this.entities.QueueSpawn(new Entity("enemy") {
+            Entities.EnqueueSpawn(new Entity("enemy") {
                 Textured.Instance,
 
                 new CustomUpdated((e, gt) => {
@@ -200,7 +200,7 @@ namespace SpermGame {
 
                 new CustomCollidable((e, other) => {
                     if (other.Get(destroysEnemies)) {
-                        this.entities.QueueDestroy(other);
+                        Entities.EnqueueDestroy(other);
 
                         var ownerE = other.Get(owner);
                         Healthed.Damage(e, other.Get(damage), ownerE);
@@ -208,7 +208,7 @@ namespace SpermGame {
                 }),
 
                 new CustomKillable((e, killer) => {
-                    this.entities.QueueDestroy(e);
+                    Entities.EnqueueDestroy(e);
                 }),
 
                 { Textured.Texture, textureEnemy },
@@ -237,20 +237,20 @@ namespace SpermGame {
                 this.Exit();
             }
 
-            this.entities.Begin();
+            Entities.SpawnEntities();
 
             var kb = Keyboard.GetState(PlayerIndex.One);
-            this.entities.ForEach<IKeyboardInputed>((e, c) => {
+            Entities.ForEach<IKeyboardInputed>((e, c) => {
                 c.Update(e, kb);
             });
 
-            this.entities.ForEach<IUpdated>((e, c) => {
+            Entities.ForEach<IUpdated>((e, c) => {
                 c.Update(e, gameTime);
             });
 
-            PhysicsModule.Update(this.entities);
+            PhysicsModule.Update(Entities);
 
-            this.entities.End();
+            Entities.DestroyEntities();
 
             base.Update(gameTime);
         }
@@ -260,11 +260,11 @@ namespace SpermGame {
 
             this.spriteBatch.Begin();
 
-            this.entities.ForEach<Textured>((e, c) => {
+            Entities.ForEach<Textured>((e, c) => {
                 c.Draw(e, this.spriteBatch);
             });
 
-            this.entities.ForEach<Texted>((e, c) => {
+            Entities.ForEach<Texted>((e, c) => {
                 c.Draw(e, this.spriteBatch);
             });
 
