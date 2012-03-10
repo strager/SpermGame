@@ -24,15 +24,26 @@ namespace SpermGame.Engine.Physics {
             return CantCollide(a, b);
         }
 
+        [Pure]
         public static bool Intersects(CircleShape a, CircleShape b) {
             float centerDist2 = (a.Center - b.Center).LengthSquared();
             float minDist = a.Radius + b.Radius;
             return centerDist2 <= minDist * minDist;
         }
 
-        public abstract Vector2 Center { get; }
-        public abstract BoundingBox Bounds { get; }
+        public virtual Vector2 Center {
+            [Pure]
+            get {
+                var bounds = this.Bounds;
+                var min2 = new Vector2(bounds.Min.X, bounds.Min.Y);
+                var max2 = new Vector2(bounds.Max.X, bounds.Max.Y);
+                return min2 + (max2 - min2) / 2;
+            }
+        }
 
+        public abstract BoundingBox Bounds { [Pure] get; }
+
+        [Pure]
         public abstract ShapePrimitive Offset(Vector2 v);
     }
     
@@ -44,9 +55,7 @@ namespace SpermGame.Engine.Physics {
 
         private readonly float radius;
         public float Radius {
-            get {
-                return this.radius;
-            }
+            get { return this.radius; }
         }
 
         public CircleShape(Vector2 center, float radius) {
