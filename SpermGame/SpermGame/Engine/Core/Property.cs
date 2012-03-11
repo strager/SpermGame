@@ -1,10 +1,9 @@
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using SpermGame.Util;
 
 namespace SpermGame.Engine.Core {
     class Property<T> {
-        // TODO Weak dictionary
-        private readonly IDictionary<Entity, T> values = new Dictionary<Entity, T>();
+        private readonly WeakMap<Entity, T> values = new WeakMap<Entity, T>();
         private readonly T defaultValue;
 
         public Property(T defaultValue = default(T)) {

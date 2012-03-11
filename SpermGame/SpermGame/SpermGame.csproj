@@ -153,6 +153,7 @@
     <Compile Include="Scripts\Properties.cs" />
     <Compile Include="Scripts\ScriptBase.cs" />
     <Compile Include="Util\BoundingBox2.cs" />
+    <Compile Include="Util\WeakMap.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
