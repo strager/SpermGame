@@ -134,6 +134,7 @@
     <Compile Include="Engine\Core\Component.cs" />
     <Compile Include="Engine\Core\Entity.cs" />
     <Compile Include="Engine\Core\EntityCollection.cs" />
+    <Compile Include="Engine\Core\EntityHelpers.cs" />
     <Compile Include="Engine\Core\IComponent.cs" />
     <Compile Include="Engine\Core\Property.cs" />
     <Compile Include="Engine\Physics\Body.cs" />

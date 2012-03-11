@@ -126,20 +126,5 @@ namespace SpermGame.Engine.Core {
         public Entity Create(string name = null) {
             return new Entity(this, name);
         }
-
-        public Entity Configure(Action<Entity> callback) {
-            callback(this);
-            return this;
-        }
-
-        public Entity Configure<T>(Property<T> prop, T value) {
-            this.Set(prop, value);
-            return this;
-        }
-
-        public Entity Configure(IEnumerable<IComponent> components) {
-            this.Add(components);
-            return this;
-        }
     }
 }
